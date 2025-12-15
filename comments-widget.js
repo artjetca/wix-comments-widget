@@ -13,10 +13,14 @@ class CommentsWidget extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['comments-data', 'stats-data'];
+    return ['comments-data', 'stats-data', 've-ready'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 've-ready' && newValue) {
+      this.dispatchEvent(new CustomEvent('ready', { bubbles: true, composed: true }));
+      return;
+    }
     if (name === 'comments-data' && newValue) {
       try {
         this.comments = JSON.parse(newValue);
